@@ -6,6 +6,9 @@
 
 import './bootstrap';
 import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import HeaderComponent from "./components/HeaderComponent.vue";
+import BookShelfComponent from "./components/BookShelfComponent.vue";
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -15,9 +18,18 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
-import ExampleComponent from './components/ExampleComponent.vue';
-app.component('example-component', ExampleComponent);
+const router = new createRouter({
+    history:createWebHistory(),
+    routes: [
+        {
+            path: '/books',
+            name: 'book.shelf',
+            component: BookShelfComponent
+        },
+    ]
+});
 
+app.component('header-component', HeaderComponent);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -27,7 +39,7 @@ app.component('example-component', ExampleComponent);
  */
 
 // Object.entries(import.meta.glob('./**/*.vue', { eager: true })).forEach(([path, definition]) => {
-//     app.component(path.split('/').pop().replace(/\.\w+$/, ''), definition.default);
+//     app.component(path.split('/').pop().replace(/\.\w$/, ''), definition.default);
 // });
 
 /**
@@ -35,5 +47,5 @@ app.component('example-component', ExampleComponent);
  * an "id" attribute of "app". This element is included with the "auth"
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
-
+app.use(router);
 app.mount('#app');
