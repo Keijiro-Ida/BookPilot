@@ -9,7 +9,8 @@ import { createApp } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import HeaderComponent from "./components/HeaderComponent.vue";
 import BookShelfComponent from "./components/BookShelfComponent.vue";
-
+import BookShowComponent from "./components/BookShowComponent.vue";
+import BookReviewComponent from "./components/BookReviewComponent.vue";
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
  * registering components with the application instance so they are ready
@@ -25,6 +26,21 @@ const router = new createRouter({
             path: '/books',
             name: 'book.shelf',
             component: BookShelfComponent
+        },
+        {
+            path: '/books/:bookId',
+            name: 'book.show',
+            component: BookShowComponent
+        },
+        {
+            path: '/books/search',
+            name: 'book.search',
+            component: BookShowComponent
+        },
+        {
+            path: '/books/:bookId/review',
+            name: 'book.review',
+            component: BookReviewComponent
         },
     ]
 });
