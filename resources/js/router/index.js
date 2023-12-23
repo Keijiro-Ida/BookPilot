@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import BookShelfComponent from "@/components/BookShelfComponent.vue";
 import BookShowComponent from "@/components/BookShowComponent.vue";
+import BookSearchComponent from "@/components/BookSearchComponent.vue";
 import BookReviewComponent from "@/components/BookReviewComponent.vue";
 
 const router = new createRouter({
@@ -20,7 +21,7 @@ const router = new createRouter({
         {
             path: '/books/search',
             name: 'book.search',
-            component: BookShowComponent
+            component: BookSearchComponent
         },
         {
             path: '/books/:bookId/review',
