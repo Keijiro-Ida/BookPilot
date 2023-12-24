@@ -34,8 +34,10 @@ const store = createStore({
       strict: true,
       namespaced: true,
       state: {
-        test:'yes!!',
-        bool: 'book'
+        book: {
+          title: '',
+          author: '',
+        }
       },
       actions: {
         test({state}) {
@@ -44,13 +46,31 @@ const store = createStore({
             console.log(state.test);
             resolve('action result');
         });
+        },
+        async search({commit, state}) {
+
+          try {
+            console.log(state.book.title)
+            console.log(state.book.author)
+            const res = await asyncApiPost("/api/book/search", {book: state.book});
+            const data = res.data;
+            console.log(data)
+
+            // 必要に応じてコミット操作などを行う
+            // commit('', data);
+          } catch(error) {
+            console.error('API request failed:', error)
+          }
+
         }
       },
       mutations: {
-        test(state) {
-          console.log('mutations');
-          console.log(state.test);
+        updateTitle(state, title) {
+          state.book.title = title
         },
+        updateAuthor(state, author) {
+          state.book.author = author
+        }
       },
     },
   },
