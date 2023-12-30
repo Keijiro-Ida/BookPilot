@@ -1,13 +1,27 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-sm-6">
-                <h1>{{ selectedBook.title }}</h1>
-                 <p>{{ selectedBook.authors[0] }}</p>
-            </div>
+    <div class="container book-detail">
+      <div class="row justify-content-center">
+        <div class="col-md-4 book-image">
+          <!-- 画像にリンクを設定 -->
+          <a :href="selectedBook.previewLink" target="_blank">
+            <img v-if="selectedBook.imageLinks && selectedBook.imageLinks.thumbnail"
+                :src="selectedBook.imageLinks.thumbnail"
+                alt="Book cover"
+                class="img-fluid">
+          </a>
         </div>
+        <div class="col-md-8 book-content">
+          <h1>{{ selectedBook.title }}</h1>
+          <p v-if="selectedBook.authors && selectedBook.authors.length">著者: {{ selectedBook.authors.join(', ') }}</p>
+          <p>{{ selectedBook.description }}</p>
+          <button @click="summarizeBook(selectedBook)" class="btn btn-primary">要約する</button>
+            <p v-if="selectedBook.summarizedText">{{ selectedBook.summarizedText }}</p>
+        </div>
+      </div>
     </div>
-</template>
+  </template>
+
+
 
 <script>
     export default {
@@ -21,6 +35,9 @@
             console.log(this.selectedBook);
         },
        methods: {
+        summarizeBook(book) {
+            this.$store.dispatch('book/summarizeBook', book);
+        }
        },
        computed: {
         selectedBook() {
@@ -29,3 +46,26 @@
        }
     }
 </script>
+
+<style>
+.book-detail {
+  display: flex;
+  align-items: flex-start;
+  padding: 20px 0;
+}
+
+.book-image {
+  margin-right: 20px;
+}
+
+.book-content {
+  flex: 1;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+</style>

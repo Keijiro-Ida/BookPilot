@@ -29,7 +29,8 @@
      <script>
          export default {
              props: {
-                 bookId: String
+                 bookId: String,
+
              }
          }
      </script>

@@ -12,11 +12,11 @@ class BookController extends Controller
     public function search(Request $request) {
 
         $title = $request['book']['title'];
-        $author = $request['book']['author'];
+        // $author = $request['book']['author'];
         $response = [];
         Log::debug($title);
         $response['title'] = $title;
-        $response['author'] = $author;
+        // $response['author'] = $author;
 
         $url = 'https://www.googleapis.com/books/v1/volumes?q='.$title.'%20&country=JP&tbm=bks';
 
@@ -29,5 +29,17 @@ class BookController extends Controller
 
         $data = json_decode($res, true);
         return response()->json($data);
+    }
+
+    public function summarize(Request $request) {
+        $title = $request['book']['title'];
+        // $author = $request['book']['author'];
+        $response = [];
+        Log::debug($title);
+        $response['title'] = $title;
+        // $response['author'] = $author;
+
+        $response["status"] = "success";
+        return response()->json($response);
     }
 }

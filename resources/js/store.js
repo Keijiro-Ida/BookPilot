@@ -67,7 +67,11 @@ const store = createStore({
         selectBook({ commit }, book) {
           console.log(book);
           commit('setSelectBook', book)
-        }
+        },
+        async summarizeBook({ commit }, book) {
+          const res = await asyncApiPost("/api/book/summarize", {book: book});
+          commit('setSummarizeBook', res.data);
+        },
       },
       mutations: {
         updateTitle(state, title) {
@@ -81,6 +85,9 @@ const store = createStore({
         },
         setSelectBook(state, book) {
           state.selectedBook = book.volumeInfo;
+        },
+        setSymmarizeBook(state, book) {
+          state.selectedBook.summarizedText = book.summarizedText;
         }
       },
     },
