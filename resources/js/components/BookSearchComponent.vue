@@ -16,8 +16,22 @@
 
                     </form>
                 </div>
+
+
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <ul class="list-group">
+                    <li v-for="item in list" :key="item.id" class="list-group-item" @click="selectBook(item)">
+                        {{ item.volumeInfo.authors[0] }} - {{ item.volumeInfo.title }}
+
+                    </li>
+                    </ul>
+                </div>
             </div>
         </div>
+
     </template>
 
     <script>
@@ -44,10 +58,14 @@
                     console.log(this.title, this.author)
                     this.$store.dispatch('book/search')
                 },
+                selectBook(item) {
+                    this.$store.dispatch('book/selectBook', item);
+                    this.$router.push({name: 'book.show'});
+                }
 
             },
             computed: {
-                ...mapState('book', ['book']),
+                ...mapState('book', ['book', 'list']),
             title: {
                 get() {
                     return this.book.title;

@@ -14,7 +14,7 @@ const router = new createRouter({
             component: BookShelfComponent
         },
         {
-            path: '/books/:bookId',
+            path: '/books/show',
             name: 'book.show',
             component: BookShowComponent
         },

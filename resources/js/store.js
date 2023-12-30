@@ -37,7 +37,9 @@ const store = createStore({
         book: {
           title: '',
           author: '',
-        }
+        },
+        list:[],
+        selectedBook: null,
       },
       actions: {
         test({state}) {
@@ -54,14 +56,17 @@ const store = createStore({
             console.log(state.book.author)
             const res = await asyncApiPost("/api/book/search", {book: state.book});
             const data = res.data;
-            console.log(data)
+            console.log(data);
+            commit('updateList', data)
+            return data;
 
-            // 必要に応じてコミット操作などを行う
-            // commit('', data);
           } catch(error) {
             console.error('API request failed:', error)
           }
-
+        },
+        selectBook({ commit }, book) {
+          console.log(book);
+          commit('setSelectBook', book)
         }
       },
       mutations: {
@@ -70,6 +75,12 @@ const store = createStore({
         },
         updateAuthor(state, author) {
           state.book.author = author
+        },
+        updateList(state, data) {
+          data.items.forEach((item) => state.list.push(item));
+        },
+        setSelectBook(state, book) {
+          state.selectedBook = book.volumeInfo;
         }
       },
     },
