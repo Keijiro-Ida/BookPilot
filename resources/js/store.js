@@ -68,8 +68,9 @@ const store = createStore({
           console.log(book);
           commit('setSelectBook', book)
         },
-        async summarizeBook({ commit }, book) {
-          const res = await asyncApiPost("/api/book/summarize", {book: book});
+        async summarizeBook({commit}, selectedBook) {
+          // console.log(book);
+          const res = await asyncApiPost("/api/book/summarize", {book: selectedBook});
           commit('setSummarizeBook', res.data);
         },
       },
