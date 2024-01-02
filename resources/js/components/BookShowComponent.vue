@@ -16,6 +16,8 @@
           <p>{{ selectedBook.description }}</p>
           <button @click="summarizeBook(selectedBook)" class="btn btn-primary">要約する</button>
             <p v-if="selectedBook.summarizedText">{{ selectedBook.summarizedText }}</p>
+
+          <button @click="reviewBook(selectedBook)" class="btn btn-primary">感想を書く</button>
         </div>
       </div>
     </div>
@@ -37,6 +39,9 @@
        methods: {
         summarizeBook(book) {
             this.$store.dispatch('book/summarizeBook', book);
+        },
+        reviewBook(book) {
+            this.$store.dispatch('book/reviewBook', book);
         }
        },
        computed: {

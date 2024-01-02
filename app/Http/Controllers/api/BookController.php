@@ -67,4 +67,17 @@ class BookController extends Controller
 
         return response()->json($result);
     }
+
+    public function review(Request $request) {
+
+            $title = $request['book']['title'];
+            $author = $request['book']['authors'][0];
+
+            $result = [];
+            $result['title'] = $title;
+
+            Log::debug($result);
+
+            return response()->json($result);
+    }
 }

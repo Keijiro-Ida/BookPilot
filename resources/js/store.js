@@ -71,8 +71,13 @@ const store = createStore({
         async summarizeBook({commit}, selectedBook) {
           // console.log(book);
           const res = await asyncApiPost("/api/book/summarize", {book: selectedBook});
+          console.log(res.data);
           commit('setSummarizeBook', res.data);
         },
+        reviewBook({commit}, selectedBook) {
+          const res = asyncApiPost("/api/book/review", {book: selectedBook});
+          console.log(res.data);
+        }
       },
       mutations: {
         updateTitle(state, title) {
@@ -87,8 +92,8 @@ const store = createStore({
         setSelectBook(state, book) {
           state.selectedBook = book.volumeInfo;
         },
-        setSymmarizeBook(state, book) {
-          state.selectedBook.summarizedText = book.summarizedText;
+        setSummarizeBook(state, data) {
+          state.selectedBook.summarizedText = data.choices[0].message.content;
         }
       },
     },

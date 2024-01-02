@@ -23,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::post('/book/search', 'api\BookController@search');
 Route::post('/book/search', [BookController::class, 'search']);
 Route::post('/book/summarize', [BookController::class, 'summarize']);
+Route::post('/book/review', [BookController::class, 'review']);
