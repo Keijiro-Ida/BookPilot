@@ -19,7 +19,7 @@ return new class extends Migration
             $table->datetime('publication_date')->nullable()->comment('出版日');
             $table->string('cover_image_url')->nullable()->comment('画像URL');
             $table->string('buy_link')->nullable()->comment('購入リンク');
-            $table->string('description')->nullable()->comment('説明');
+            $table->text('description')->nullable()->comment('説明');
             $table->string('publisher')->nullable()->comment('出版社');
             $table->string('price')->nullable()->comment('価格');
             $table->timestamps();

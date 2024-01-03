@@ -91,6 +91,8 @@ const store = createStore({
         },
         setSelectBook(state, book) {
           state.selectedBook = book.volumeInfo;
+          state.selectedBook.id = book.id;
+          state.selectedBook.retailPrice = book.saleInfo.retailPrice.amount;
         },
         setSummarizeBook(state, data) {
           state.selectedBook.summarizedText = data.choices[0].message.content;

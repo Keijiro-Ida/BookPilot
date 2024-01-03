@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Libs\ChatGptApi;
+use App\Models\Book;
+use DateTime;
 
 use Illuminate\Support\Facades\Log;
 
@@ -73,10 +75,30 @@ class BookController extends Controller
             $title = $request['book']['title'];
             $author = $request['book']['authors'][0];
 
+            $google_id = $request['book']['id'];
+
+            $book = Book::where('google_id', $google_id)->first();
+            Log::debug($request);
+            if(!isset($book)) {
+                $book = new Book();
+                $book->title = $title;
+                $book->author = $author;
+                $book->google_id = $google_id;
+                $book->description = $request['book']['description'];
+                $book->cover_image_url = $request['book']['imageLinks']['thumbnail'];
+                $book->buy_link = $request['book']['infoLink'];
+                $book->publication_date = new DateTime($request['book']['publishedDate']);
+                $book->publisher = $request['book']['publisher'];
+                $book->price = $request['book']['retailPrice'];
+
+                $book->save();
+            }
+
+            // $readingStatus = ReadingStatus::where('user_id', $request['user_id'])->where('book_id', $book->id)->first();
             $result = [];
             $result['title'] = $title;
 
-            Log::debug($result);
+            Log::debug($request);
 
             return response()->json($result);
     }
