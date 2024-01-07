@@ -33,7 +33,6 @@ class UserController extends Controller
             'password'=> Hash::make($request->password),
         ]);
 
-        Auth::login($user);
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
