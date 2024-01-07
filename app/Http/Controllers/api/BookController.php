@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Libs\ChatGptApi;
 use App\Models\Book;
+use App\Models\ReadingStatus;
 use DateTime;
 
 use Illuminate\Support\Facades\Log;
@@ -94,7 +95,12 @@ class BookController extends Controller
                 $book->save();
             }
 
-            // $readingStatus = ReadingStatus::where('user_id', $request['user_id'])->where('book_id', $book->id)->first();
+            $readingStatus = ReadingStatus::where('user_id', $request['user_id'])->where('book_id', $book->id)->first();
+            if(!isset($readingStatus)) {
+                $readingStatus = new ReadingStatus();
+                $readingStatus->user_id = $request['user_id'];
+                $readingStatus->book_id = $book->id;
+            }
             $result = [];
             $result['title'] = $title;
 

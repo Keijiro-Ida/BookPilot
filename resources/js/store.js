@@ -28,7 +28,80 @@ const store = createStore({
   ],
   modules: {
     auth: {
+      strict: true,
+      namespaced: true,
+      state: {
+        token: localStorage.getItem('token') || null,
+        user: null,
+      },
+      mutations: {
+        setToken(state, token) {
+          state.token = token;
+        },
+        setUser(state, user) {
+          state.user = user;
+        },
+      },
+      actions: {
+        async login({ commit }, { email, password }) {
+          try {
+            const res = await asyncApiPost("/api/login", { email, password });
+            const data = res.data;
+            if (res.data.error_code) {
+              const error = new Error();
+              error.message = data.message;
+              error.code = data.error_code;
+              throw error;
+            }
+            console.log('success login')
 
+            const token = data.token;
+            localStorage.setItem('token', token);
+            commit('setToken', token);
+
+          } catch(error) {
+            throw error;
+          }
+        },
+        async signup({ commit }, {form: form}) {
+          try {
+            const res = await asyncApiPost("/api/signup",{
+                name: form.name,
+                email: form.email,
+                password: form.password,
+                password_confirmation: form.password_confirmation
+              });
+            const data = res.data;
+            if (res.data.error_code) {
+              const error = new Error();
+              error.message = data.message;
+              error.code = data.error_code;
+              throw error;
+            }
+
+            const token = data.token;
+            localStorage.setItem('token', token);
+            commit('setToken', token);
+
+          } catch(error) {
+            throw error;
+          }
+        },
+        async logout({ commit }) {
+          try {
+            const res = await asyncApiPost("/api/logout");
+            const data = res.data;
+            localStorage.removeItem('token');
+          } catch(error) {
+            throw error;
+          }
+        },
+      },
+      getters: {
+        isAuthenticated(state) {
+          return !!state.token;
+        }
+      },
     },
     book: {
       strict: true,

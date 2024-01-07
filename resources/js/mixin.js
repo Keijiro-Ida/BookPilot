@@ -4,7 +4,7 @@ export default {
     methods: {
         $_errorNetWork(err) {
             console.log(err);
-            alert('通信エラーが発生しました。時間を置いて再度試してください。：'+err)
+            alert('通信エラーが発生しました。時間を置いて再度試してください：'+err)
         },
     },
     computed: {

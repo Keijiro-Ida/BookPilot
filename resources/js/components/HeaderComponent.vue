@@ -2,7 +2,7 @@
     <div class="container-fluid bg-dark mb-3">
         <div class="container">
             <nav class="navbar navbar-dark">
-                <span class="navbar-brand mb-0 h1">Vue Laravel SPA</span>
+                <span class="navbar-brand mb-0 h1">Book Pilot</span>
                 <div>
                     <button class="btn btn-success">List</button>
                     <router-link v-bind:to="{name: 'book.search'}">
@@ -11,7 +11,7 @@
                     <router-link v-bind:to="{name: 'book.shelf'}">
                         <button class="btn btn-success">本棚</button>
                     </router-link>
-                    <button class="btn btn-success">ADD</button>
+                    <button class="btn btn-success" @click="logout">ログアウト</button>
                 </div>
             </nav>
         </div>
@@ -19,5 +19,12 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        methods: {
+            logout() {
+                this.$store.dispatch('auth/logout');
+                this.$router.push({name: 'login'});
+            }
+        }
+    }
 </script>
