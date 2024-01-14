@@ -23,9 +23,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Route::post('/book/search', 'api\BookController@search');
-Route::post('/book/search', [BookController::class, 'search']);
-Route::post('/book/summarize', [BookController::class, 'summarize']);
-Route::post('/book/review', [BookController::class, 'review']);
+
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/signup', [UserController::class, 'store']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/book/search', [BookController::class, 'search']);
+    Route::post('/book/summarize', [BookController::class, 'summarize']);
+    Route::post('/book/review', [BookController::class, 'review']);
+});

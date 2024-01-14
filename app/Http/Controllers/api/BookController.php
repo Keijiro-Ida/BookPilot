@@ -8,6 +8,7 @@ use App\Libs\ChatGptApi;
 use App\Models\Book;
 use App\Models\ReadingStatus;
 use DateTime;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Log;
 
@@ -72,14 +73,14 @@ class BookController extends Controller
     }
 
     public function review(Request $request) {
-
+            Log::debug($request);
             $title = $request['book']['title'];
             $author = $request['book']['authors'][0];
 
             $google_id = $request['book']['id'];
 
             $book = Book::where('google_id', $google_id)->first();
-            Log::debug($request);
+
             if(!isset($book)) {
                 $book = new Book();
                 $book->title = $title;
@@ -94,17 +95,18 @@ class BookController extends Controller
 
                 $book->save();
             }
-
-            $readingStatus = ReadingStatus::where('user_id', $request['user_id'])->where('book_id', $book->id)->first();
+            $user = Auth::user();
+            $readingStatus = ReadingStatus::where('user_id', $user->id)->where('book_id', $book->id)->first();
             if(!isset($readingStatus)) {
                 $readingStatus = new ReadingStatus();
-                $readingStatus->user_id = $request['user_id'];
+                $readingStatus->user_id = $user->id;
                 $readingStatus->book_id = $book->id;
+                $readingStatus->reading_status = 1;
+                $readingStatus->save();
             }
-            $result = [];
-            $result['title'] = $title;
-
-            Log::debug($request);
+            $result['status'] = true;
+            $result['reading_status'] = $readingStatus;
+            Log::debug($result);
 
             return response()->json($result);
     }

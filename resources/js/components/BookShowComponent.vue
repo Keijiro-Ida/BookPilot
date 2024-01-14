@@ -41,7 +41,16 @@
             this.$store.dispatch('book/summarizeBook', book);
         },
         reviewBook(book) {
-            this.$store.dispatch('book/reviewBook', book);
+            this.$store.dispatch('book/reviewBook', book)
+              .then(res => {
+                        console.log('Action response:', res);
+                        this.$router.push({ name: 'book.review', params: { bookId: res.reading_status.book_id }});
+
+                    })
+                    .catch(err => {
+                        console.error('Action failed:', err);
+                    });
+
         }
        },
        computed: {
